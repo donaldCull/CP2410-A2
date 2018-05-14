@@ -23,21 +23,26 @@ def main():
 
 def run_two_player_mode():
 
-    rows = int(input("How many rows? (3 to 7) "))
-    columns = int(input("How many columns? (3 to 7) "))
-
-
+    rows = get_int("How many rows? (3 to 7) ")
+    columns = get_int("How many columns? (3 to 7) ")
     board = Connect3Board(rows,columns)
 
     while board.get_winner() == None:
-        print(board)
-        print()
-        column_choice = int(input("Player {}'s turn. Choose column ({} to {}):".format(board.get_whose_turn(), 0, board.get_columns() - 1)))
+        column_choice = get_int("Player {}'s turn. Choose column ({} to {}):".format(board.get_whose_turn(), 0, board.get_columns() - 1))
         if board.can_add_token_to_column(column_choice):
             board.add_token(column_choice)
         else:
             print("You cannot add a token at column {}".format(column_choice))
-        break
+
+        print(board)
+
+
+    # Display the winner if its not a draw
+    if board.get_winner() != board.DRAW:
+        print("Player {} wins!".format(board.get_winner()))
+    else:
+        print(board.get_winner())
+
 
 def run_ai_mode():
     # for you to complete...

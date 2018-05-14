@@ -46,7 +46,7 @@ class Connect3Board:
 
         # this only works correctly for 3*3, you will need to implement a solution that works for larger
         # sized boards
-        if self._rows == self._rows == 3:
+        if self._rows == 3 and self._cols == 3:
             if self._board[0][0] is not None and \
                     (self._board[0][0] == self._board[0][1] == self._board[0][2] or
                      self._board[0][0] == self._board[1][0] == self._board[2][0] or
@@ -64,7 +64,23 @@ class Connect3Board:
                 return self._board[0][2]
         else:
             # implement your solution here
-            pass
+            for row in range(self._rows):
+                for column in range(self._cols):
+                    if self._board[row][column] is not None:
+                        if column < self._cols - 2:
+                            # check for win horizontally
+                            if self._board[row][column] == self._board[row][column + 1] == self._board[row][column + 2]:
+                                return self._board[row][column]
+
+                        elif row > self._rows - 2:
+                            if self._board[row][column] == self._board[row + 1][column] == self._board[row + 2][column]:
+                                # check for win vertically
+                                return self._board[row][column]
+
+
+
+
+
 
         # no winner discovered, so check for draw or otherwise return None
         if self._turn_number >= self._rows * self._cols:
