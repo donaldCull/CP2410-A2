@@ -67,15 +67,23 @@ class Connect3Board:
             for row in range(self._rows):
                 for column in range(self._cols):
                     if self._board[row][column] is not None:
+                        if row < self._rows - 2:
+                            # check for win vertically
+                            if self._board[row][column] == self._board[row + 1][column] == self._board[row + 2][column]:
+                                return self._board[row][column]
+
                         if column < self._cols - 2:
                             # check for win horizontally
                             if self._board[row][column] == self._board[row][column + 1] == self._board[row][column + 2]:
                                 return self._board[row][column]
 
-                        elif row > self._rows - 2:
-                            if self._board[row][column] == self._board[row + 1][column] == self._board[row + 2][column]:
-                                # check for win vertically
+                        if row < self._rows - 1 and column < self._cols - 1:
+                            # check for win diagonally
+                            if self._board[row][column] == self._board[row + 1][column - 1] == self._board[row - 1][column + 1]\
+                                    or self._board[row][column] == self._board[row + 1][column + 1] == self._board[row - 1][column - 1]:
                                 return self._board[row][column]
+
+
 
 
 

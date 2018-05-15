@@ -28,14 +28,14 @@ def run_two_player_mode():
     board = Connect3Board(rows,columns)
 
     while board.get_winner() == None:
+        print(board)
         column_choice = get_int("Player {}'s turn. Choose column ({} to {}):".format(board.get_whose_turn(), 0, board.get_columns() - 1))
         if board.can_add_token_to_column(column_choice):
             board.add_token(column_choice)
         else:
             print("You cannot add a token at column {}".format(column_choice))
 
-        print(board)
-
+    print(board)
 
     # Display the winner if its not a draw
     if board.get_winner() != board.DRAW:
