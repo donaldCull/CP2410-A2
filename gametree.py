@@ -16,19 +16,21 @@ class GameTree:
     MIN_WIN_SCORE = -1
     DRAW_SCORE = 0
 
+
     # noinspection PyProtectedMember
     class _Node:
+        POSSIBLE_SELECTIONS = 3
         __slots__ = '_gameboard', '_children', '_score'
+
 
         def __init__(self, gameboard: Connect3Board):
             self._gameboard = gameboard
             self._children = [None] * self._gameboard.get_columns()
-
-            # for you to complete...
+            self._create_children()
 
         def _create_children(self):
-            # for you to complete...
-            pass
+
+
 
         def _compute_score(self):
             # for you to complete...

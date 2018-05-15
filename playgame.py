@@ -45,8 +45,9 @@ def run_two_player_mode():
 
 
 def run_ai_mode():
-    # for you to complete...
-    pass
+    board = Connect3Board(3, 3)
+    game_tree = GameTree(board)
+
 
 
 def get_mode():
