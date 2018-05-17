@@ -47,13 +47,13 @@ def run_two_player_mode():
 
 def run_ai_mode():
     board = Connect3Board(3, 3)
-    player_token = board.TOKENS[0]
+    player_token = select_player_token()
     game_tree = GameTree(board)
     position_tree = game_tree.get_root_position()
 
     while board.get_winner() == None:
-        print(board)
         if board.get_whose_turn() == player_token:
+            print(board)
             column_choice = get_int("Player {}'s turn. Choose column ({} to {}):".format(board.get_whose_turn(), 0, board.get_columns() - 1))
             if board.can_add_token_to_column(column_choice):
                 board.add_token(column_choice)
@@ -67,8 +67,12 @@ def run_ai_mode():
             # select the best child score from the children
             best_child = 0
             for index, score in enumerate(child_scores):
-                if score is not None and score < GameTree.MAX_WIN_SCORE:
+                if score is not None and player_token != GameTree.MIN_PLAYER and score < GameTree.MAX_WIN_SCORE:
                     best_child = index
+
+                elif score is not None and player_token != GameTree.MAX_PLAYER and score > GameTree.MIN_WIN_SCORE:
+                    best_child = index
+
             board.add_token(best_child)
             # navigate to the next child in the tree
             position_tree = position_tree.get_child(best_child)
@@ -81,8 +85,11 @@ def run_ai_mode():
         print(board.get_winner())
 
 
-
-
+def select_player_token():
+    selection = input("Please select a token O or #: ")
+    while selection not in Connect3Board.TOKENS:
+        selection = input("Invalid selection. Please select a token O or #: ")
+    return selection
 
 
 def get_mode():

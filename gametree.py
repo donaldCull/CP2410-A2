@@ -58,13 +58,13 @@ class GameTree:
 
         def _compute_score(self):
             if self._gameboard.get_whose_turn() == GameTree.MAX_PLAYER:
-                max_score = -2
+                max_score = -1
                 for child in self._children:
                     if child is not None and child._score > max_score:
                         max_score = child._score
                 self._score = max_score
             else:
-                min_score = 2
+                min_score = 1
                 for child in self._children:
                     if child is not None and child._score < min_score:
                         min_score = child._score
