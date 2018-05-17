@@ -8,10 +8,11 @@ This file forms part of the assessment for CP2410 Assignment 2
 """
 from connect3board import Connect3Board
 from gametree import GameTree
+from random import randint
 
 
 def main():
-    print('Welcome to Connect 3 by YOUR NAME HERE')
+    print('Welcome to Connect 3 by Donald Cull')
     mode = get_mode()
     while mode != 'Q':
         if mode == 'A':
@@ -46,8 +47,41 @@ def run_two_player_mode():
 
 def run_ai_mode():
     board = Connect3Board(3, 3)
-    board.add_token(0)
+    player_token = board.TOKENS[0]
     game_tree = GameTree(board)
+    position_tree = game_tree.get_root_position()
+
+    while board.get_winner() == None:
+        print(board)
+        if board.get_whose_turn() == player_token:
+            column_choice = get_int("Player {}'s turn. Choose column ({} to {}):".format(board.get_whose_turn(), 0, board.get_columns() - 1))
+            if board.can_add_token_to_column(column_choice):
+                board.add_token(column_choice)
+                # find the children from the tree based on the users selection
+                position_tree = position_tree.get_child(column_choice)
+            else:
+                print("You cannot add a token at column {}".format(column_choice))
+        else:
+            child_scores = position_tree.get_children_scores()
+
+            # select the best child score from the children
+            best_child = 0
+            for index, score in enumerate(child_scores):
+                if score is not None and score < GameTree.MAX_WIN_SCORE:
+                    best_child = index
+            board.add_token(best_child)
+            # navigate to the next child in the tree
+            position_tree = position_tree.get_child(best_child)
+
+    print(board)
+    # Display the winner if its not a draw
+    if board.get_winner() != board.DRAW:
+        print("Player {} wins!".format(board.get_winner()))
+    else:
+        print(board.get_winner())
+
+
+
 
 
 
