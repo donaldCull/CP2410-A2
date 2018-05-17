@@ -15,7 +15,7 @@ class GameTree:
     MAX_WIN_SCORE = 1
     MIN_WIN_SCORE = -1
     DRAW_SCORE = 0
-
+    count = 0
 
     # noinspection PyProtectedMember
     class _Node:
@@ -29,6 +29,15 @@ class GameTree:
             self._create_children()
 
         def _create_children(self):
+
+            for choice in range(self.POSSIBLE_SELECTIONS):
+                if self._gameboard.can_add_token_to_column(choice):
+                    child_board = self._gameboard.make_copy()
+                    child_board.add_token(choice)
+                    self._children[choice] = GameTree._Node(child_board)
+                    GameTree.count += 1
+                    print("count: {}\n{}".format(GameTree.count,child_board))
+
 
 
 

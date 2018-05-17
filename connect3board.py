@@ -83,13 +83,6 @@ class Connect3Board:
                                     or self._board[row][column] == self._board[row + 1][column + 1] == self._board[row - 1][column - 1]:
                                 return self._board[row][column]
 
-
-
-
-
-
-
-
         # no winner discovered, so check for draw or otherwise return None
         if self._turn_number >= self._rows * self._cols:
             return Connect3Board.DRAW
