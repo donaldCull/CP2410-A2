@@ -64,23 +64,23 @@ class Connect3Board:
                 return self._board[0][2]
         else:
             # implement your solution here
-            for row in range(self._rows):
-                for column in range(self._cols):
-                    if self._board[row][column] is not None:
-                        if row < self._rows - 2:
+            for row in range(self._rows): # O(n)
+                for column in range(self._cols): # O(n)
+                    if self._board[row][column] is not None: # O(1)
+                        if row < self._rows - 2: # 1
                             # check for win vertically
-                            if self._board[row][column] == self._board[row + 1][column] == self._board[row + 2][column]:
+                            if self._board[row][column] == self._board[row + 1][column] == self._board[row + 2][column]: # 2
                                 return self._board[row][column]
 
-                        if column < self._cols - 2:
+                        if column < self._cols - 2: # 1
                             # check for win horizontally
-                            if self._board[row][column] == self._board[row][column + 1] == self._board[row][column + 2]:
+                            if self._board[row][column] == self._board[row][column + 1] == self._board[row][column + 2]: # 2
                                 return self._board[row][column]
 
-                        if row < self._rows - 1 and column < self._cols - 1:
+                        if row < self._rows - 1 and column < self._cols - 1: # 2
                             # check for win diagonally
                             if self._board[row][column] == self._board[row + 1][column - 1] == self._board[row - 1][column + 1]\
-                                    or self._board[row][column] == self._board[row + 1][column + 1] == self._board[row - 1][column - 1]:
+                                    or self._board[row][column] == self._board[row + 1][column + 1] == self._board[row - 1][column - 1]: # 4
                                 return self._board[row][column]
 
         # no winner discovered, so check for draw or otherwise return None

@@ -8,7 +8,6 @@ This file forms part of the assessment for CP2410 Assignment 2
 """
 from connect3board import Connect3Board
 from gametree import GameTree
-from random import randint
 
 
 def main():
@@ -44,11 +43,11 @@ def run_two_player_mode():
     else:
         print(board.get_winner())
 
-
 def run_ai_mode():
     board = Connect3Board(3, 3)
     player_token = select_player_token()
     game_tree = GameTree(board)
+    print(game_tree.count)
     position_tree = game_tree.get_root_position()
 
     while board.get_winner() == None:
@@ -62,14 +61,17 @@ def run_ai_mode():
             else:
                 print("You cannot add a token at column {}".format(column_choice))
         else:
+            print("AI's turn")
             child_scores = position_tree.get_children_scores()
 
             # select the best child score from the children
             best_child = 0
             for index, score in enumerate(child_scores):
+                # pick the score based on player selecting O token
                 if score is not None and player_token != GameTree.MIN_PLAYER and score < GameTree.MAX_WIN_SCORE:
                     best_child = index
 
+                    # pick the best score based on player selecting # token
                 elif score is not None and player_token != GameTree.MAX_PLAYER and score > GameTree.MIN_WIN_SCORE:
                     best_child = index
 

@@ -15,10 +15,10 @@ class GameTree:
     MAX_WIN_SCORE = 1
     MIN_WIN_SCORE = -1
     DRAW_SCORE = 0
+    count = 0
 
     # noinspection PyProtectedMember
     class _Node:
-        POSSIBLE_SELECTIONS = 3
         __slots__ = '_gameboard', '_children', '_score'
 
 
@@ -43,7 +43,7 @@ class GameTree:
 
         def _create_children(self):
 
-            for choice in range(self.POSSIBLE_SELECTIONS):
+            for choice in range(self._gameboard.get_columns()):
                 # if ai can add a token create a new board and recurse
                 if self._gameboard.can_add_token_to_column(choice):
                     child_board = self._gameboard.make_copy()
@@ -52,19 +52,19 @@ class GameTree:
                 else:
                     # if no tokens can be added child is not useful
                     self._children[choice] = None
-
-
-
+            GameTree.count += 1
 
         def _compute_score(self):
             if self._gameboard.get_whose_turn() == GameTree.MAX_PLAYER:
                 max_score = -1
                 for child in self._children:
+                    # if a child has a postive score give the Node a positive score
                     if child is not None and child._score > max_score:
                         max_score = child._score
                 self._score = max_score
             else:
                 min_score = 1
+                # if a child has a negative score give the Node a negative score
                 for child in self._children:
                     if child is not None and child._score < min_score:
                         min_score = child._score
@@ -94,3 +94,4 @@ class GameTree:
     def get_root_position(self):
         """ Return a Position object at the root of the game tree """
         return GameTree._Position(self._root)
+
